@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrandKu — Topik 2: HTML Semantik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+<body>
+
+ 
+  <header class="flex items-center justify-between px-10 py-4 bg-white">
+    <h1 class="text-blue-600 font-bold">BrandKu</h1>
+
+   
+    <nav class="flex gap-6">
+      <a class="text-gray-700 hover:text-blue-600" href="#">Beranda</a>
+      <a class="text-gray-700 hover:text-blue-600" href="#">Fitur</a>
+      <a class="text-gray-700 hover:text-blue-600" href="#">Harga</a>
+    </nav>
+  </header>
+
+  
+  <main>
+
+  
+    <section class ="bg-blue-50 text-center py-24 px-6">
+     
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">Solusi Terbaik untuk Bisnismu</h1>
+      <p class="text-gray-500 max-w-md mx-auto mb-8">
+        Platform all-in-one untuk manajemen, pemasaran,
+        dan pertumbuhan bisnis kecil.
+      </p>
+     
+      <button id = "cta-button"
+      class="bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700">Mulai Gratis</button>
+      <p id="cta-message" 
+      class="mt-4 text-gray-400 font-medium hidden">button clicked!</p>
+      <p id="second_message" 
+      class="mt-4 text-gray-400 font-medium hidden">repeat clicked!</p>
+    </section>
+
+   
+    <section class="py-16 px-6">
+      <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Mengapa BrandKu?</h2>
+
+      <div class ="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+
+      
+        <article class="border border-gray-200 rounded-lg p-6">
+          <h3 class="font-semibold text-gray-800 m-2">Mudah Digunakan</h3>
+          <p  class="text-gray-500 text-sm">Tidak perlu keahlian teknis. Setup dalam 5 menit.</p>
+        </article>
+
+        <article class="border border-gray-200 rounded-lg p-6">
+          <h3  class="font-semibold text-gray-800m-2">Serba Otomatis</h3>
+          <p class="text-gray-500 text-sm">Otomatiskan tugas berulang dan fokus pada hal yang penting.</p>
+        </article>
+
+        <article class="border border-gray-200 rounded-lg p-6">
+          <h3 class="font-semibold text-gray-800m-2">Laporan Real-time</h3>
+          <p  class="text-gray-500 text-sm">Pantau performa bisnismu kapan saja dan di mana saja.</p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+ 
+  <footer class="bg-gray-900 text-gray-400 text-center py-4 text-sm">
+    <p>&copy; 2025 BrandKu. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const btnMulaigratis = document.querySelector("#cta-button");
+    const messageClicked =document.querySelector("#cta-message");
+    const secondMessage = document.querySelector("#second_message");
+    let counter = 0;
+
+    btnMulaigratis.addEventListener("click", () => {
+      
+      counter++;
+
+      if (counter === 1) {
+        console.log("clicked");
+        messageClicked.classList.remove("hidden");
+      } else if (counter === 2) {
+        console.log("off");
+        btnMulaigratis.classList.add("hidden");
+        secondMessage.classList.remove("hidden");
+      }
+      
+
+    });
+    
+  </script>
+
+</body>
+</html>
