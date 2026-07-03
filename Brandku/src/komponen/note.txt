@@ -1,0 +1,157 @@
+hooks==/;
+
+
+// src/hooks/useLogin.js
+import { useState } from 'react';
+import { apiClient } from '../lib/apiClient';
+/**
+ * Custom hook untuk login — fokus pada pengiriman data ke endpoint /login
+ * Catatan: Ini contoh sederhana untuk pembelajaran. Tidak termasuk manajemen session atau security.
+ */
+export const useLogin = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const login = async (credentials) => {
+    try {
+      setLoading(true);
+      setUser(null);
+      // Kirim data login ke server via POST
+      const response = await apiClient.post('/login', credentials);
+      // Jika server balas dengan user, simpan
+      if (response?.user) {
+        setUser(response.user);
+      }
+    } catch (err) {
+      console.error("[Login Error]", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { user, loading, login };
+};
+
+==============================================================================
+
+Instalasi router : npm i react-router
+
+==============================================================================
+
+react rrouter :
+
+import { BrowserRouter, Route, Routes } from "react-router";
+import { useState } from "react";
+import Header from "./component/Header";
+import { featureData } from "./data/features";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Pricing from "./pages/Pricing";
+import Footer from "./component/Footer";
+
+const App = () => {
+  const [features] = useState(featureData);
+
+  return (
+    <BrowserRouter>
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Home features={features} />} />
+        <Route path="/tentang" element={<About/>} />
+        <Route path="/harga" element={<Pricing/>} />
+      </Routes>
+     
+      <Footer/>
+    </BrowserRouter>
+  );
+};
+
+export default App;
+
+====================================================================================
+
+api client :
+
+export const apiClient = {
+  // GET: untuk mengambil data (seperti "minta menu")
+  get: async (url, options = {}) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL || "https://api.brandku.com"}${url}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+        ...options,
+      },
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Gagal ambil data: ${response.status} ${response.statusText}\n` +
+          `Pesan: ${errorData.message || "Cek koneksi atau alamat API"}`,
+      );
+    }
+    return await response.json();
+  },
+  // POST: untuk mengirim data (seperti "pesan makanan")
+  post: async (url, body, options = {}) => {
+    // Mock khusus untuk /login — dengan validasi sederhana
+    if (url === "/login") {
+      const { email, password } = body || {};
+      // Hanya tiara@brandku.com + password 123 yang diterima
+      if (email === "adzril@brandku.com" && password === "123") {
+        return {
+          success: true,
+          user: {
+            name: "adzril",
+            email: "adzril@brandku.com",
+            role: "Admin",
+          },
+        };
+      }
+      // Jika gagal validasi, lempar error seperti API nyata
+      throw new Error(
+        "Email atau password salah — coba: tiara@brandku.com / 123",
+      );
+    }
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL || "https://api.brandku.com"}${url}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+        body: JSON.stringify(body),
+        ...options,
+      },
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Gagal kirim data: ${response.status} ${response.statusText}\n` +
+          `Pesan: ${errorData.message || "Cek koneksi atau data yang dikirim"}`,
+      );
+    }
+    return await response.json();
+  },
+};
+
+=============================================================================
+
+variable open login model :
+
+const [showLoginModal, setShowLoginModal] = useState(false);
+  // Listen for 'openLoginModal' event from Header
+  useEffect(() => {
+    const handleOpenModal = () => {
+      setShowLoginModal(true);
+    };
+    document.addEventListener("openLoginModal", handleOpenModal);
+    return () => {
+      document.removeEventListener("openLoginModal", handleOpenModal);
+    };
+  }, []);
+
+  ====================================================================================
