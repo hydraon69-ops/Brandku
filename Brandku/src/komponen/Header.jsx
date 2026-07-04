@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const links = [
   { id: 'hero', label: 'Home' },
   { id: 'fitur', label: 'Fitur' },
@@ -5,9 +7,12 @@ const links = [
 ];
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const scrollToSection = (id) => (e) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false); // auto-tutup menu mobile setelah klik link
   };
 
   return (
@@ -17,7 +22,9 @@ const Header = () => {
           Brand<span className="text-[#FF4D8D]">ku</span>
           <span className="text-[#C8FF4D]">✦</span>
         </h1>
-        <nav className="flex items-center gap-6 text-sm font-semibold text-white/70">
+
+        {/* Nav desktop — tersembunyi di layar kecil */}
+        <nav className="hidden items-center gap-6 text-sm font-semibold text-white/70 sm:flex">
           {links.map((link) => (
             <a
               key={link.id}
@@ -30,7 +37,34 @@ const Header = () => {
             </a>
           ))}
         </nav>
+
+        {/* Tombol hamburger — cuma muncul di layar kecil */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label={isMenuOpen ? 'Tutup menu' : 'Buka menu'}
+          aria-expanded={isMenuOpen}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-xl text-white sm:hidden"
+        >
+          {isMenuOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {/* Dropdown mobile — muncul cuma kalau isMenuOpen true */}
+      {isMenuOpen && (
+        <nav className="flex flex-col gap-1 border-t border-white/10 bg-[#150E23] px-6 pb-4 pt-2 sm:hidden">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={scrollToSection(link.id)}
+              className="rounded-xl px-3 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/5 hover:text-[#C8FF4D]"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
 };
