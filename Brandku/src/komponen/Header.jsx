@@ -1,19 +1,22 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const links = [
-  { id: 'hero', label: 'Home' },
-  { id: 'fitur', label: 'Fitur' },
-  { id: 'footer', label: 'Kontak' },
+  { path: '/Beranda', label: 'Beranda' },
+  { path: '/Tentang', label: 'Tentang' },
+  { path: '/Harga', label: 'Harga' },
 ];
+
+const linkClass = ({ isActive }) =>
+  `group relative py-1 transition ${isActive ? 'text-[#C8FF4D]' : 'text-white/70 hover:text-white'}`;
+
+const mobileLinkClass = ({ isActive }) =>
+  `rounded-xl px-3 py-3 text-sm font-semibold transition ${
+    isActive ? 'bg-white/10 text-[#C8FF4D]' : 'text-white/80 hover:bg-white/5 hover:text-[#C8FF4D]'
+  }`;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const scrollToSection = (id) => (e) => {
-    e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false); // auto-tutup menu mobile setelah klik link
-  };
 
   return (
     <header className="sticky top-0 z-30 border-b border-white/10 bg-[#150E23]/85 backdrop-blur">
@@ -23,22 +26,25 @@ const Header = () => {
           <span className="text-[#C8FF4D]">✦</span>
         </h1>
 
-        {/* Nav desktop — tersembunyi di layar kecil */}
-        <nav className="hidden items-center gap-6 text-sm font-semibold text-white/70 sm:flex">
+        {/* Nav desktop */}
+        <nav className="hidden items-center gap-6 text-sm font-semibold sm:flex">
           {links.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={scrollToSection(link.id)}
-              className="group relative py-1"
-            >
-              {link.label}
-              <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-[#C8FF4D] transition-transform duration-300 group-hover:scale-x-100" />
-            </a>
+            <NavLink key={link.path} to={link.path} className={linkClass}>
+              {({ isActive }) => (
+                <>
+                  {link.label}
+                  <span
+                    className={`absolute bottom-0 left-0 h-0.5 w-full origin-left bg-[#C8FF4D] transition-transform duration-300 ${
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </>
+              )}
+            </NavLink>
           ))}
         </nav>
 
-        {/* Tombol hamburger — cuma muncul di layar kecil */}
+        {/* Tombol hamburger — mobile */}
         <button
           type="button"
           onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -50,18 +56,18 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Dropdown mobile — muncul cuma kalau isMenuOpen true */}
+      {/* Dropdown mobile */}
       {isMenuOpen && (
         <nav className="flex flex-col gap-1 border-t border-white/10 bg-[#150E23] px-6 pb-4 pt-2 sm:hidden">
           {links.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={scrollToSection(link.id)}
-              className="rounded-xl px-3 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/5 hover:text-[#C8FF4D]"
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={mobileLinkClass}
+              onClick={() => setIsMenuOpen(false)}
             >
               {link.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
       )}
