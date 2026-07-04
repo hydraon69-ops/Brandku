@@ -1,16 +1,59 @@
-# React + Vite
+# Brandku ✦
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Landing page personal branding sederhana, dibangun pakai React + Vite + Tailwind CSS. Proyek ini dibuat sebagai bagian dari tugas belajar React (props, `useState`, `useEffect`, custom hook, dan routing).
 
-Currently, two official plugins are available:
+## Fitur
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 🎨 Desain custom bertema gen Z (warna berani, animasi ambient, marquee horizontal)
+- 📱 Navbar responsif dengan hamburger menu di mobile
+- 🧭 Routing multi-halaman: **Beranda**, **Tentang**, **Harga**
+- 🔽 Dropdown mega-menu ringkas di navbar
+- ❤️ Fitur "like" pada card fitur, tersimpan otomatis walau halaman di-refresh (`localStorage`)
+- 🔐 Simulasi login sederhana (mock API, belum terhubung backend asli)
+- 🖱️ Card fitur bisa di-scroll horizontal (drag di desktop, swipe di mobile)
 
-## React Compiler
+## Teknologi
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Router](https://reactrouter.com/)
 
-## Expanding the Oxlint configuration
+## Cara menjalankan
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Clone repo ini, lalu:
+
+```bash
+npm install
+npm run dev
+```
+
+Buka `http://localhost:5173` di browser.
+
+## Struktur proyek
+
+```
+src/
+  komponen/     → komponen UI (Header, Footer, Hero, Fitur, Card, dst)
+  halaman/      → halaman-halaman (Beranda, Tentang, Harga)
+  data/         → data statis (dummy data fitur)
+  hooks/        → custom hooks (useLogin)
+  lib/          → utilitas (apiClient)
+  App.jsx       → routing utama
+  main.jsx      → entry point
+```
+
+## Login demo
+
+Fitur login masih pakai data simulasi (belum ada backend asli), bisa dicoba dengan:
+
+- **Email:** `fathur@brandku.com`
+- **Password:** `123`
+
+## Status
+
+Proyek pembelajaran, masih terus dikembangkan.
+
+---
+
+© 2026 Brandku. Dibuat untuk keperluan belajar.
