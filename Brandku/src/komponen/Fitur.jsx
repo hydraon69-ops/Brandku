@@ -8,6 +8,10 @@ const Fitur = ({ features, onLike }) => {
   const scrollStart = useRef(0);
 
   const onPointerDown = (e) => {
+    // Kalau yang diklik itu tombol (misalnya ❤️) atau elemen di dalamnya,
+    // jangan mulai drag — biarkan klik tombolnya berjalan normal.
+    if (e.target.closest('button')) return;
+
     isDragging.current = true;
     startX.current = e.clientX;
     scrollStart.current = trackRef.current.scrollLeft;
