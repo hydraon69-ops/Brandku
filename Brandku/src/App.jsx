@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./komponen/Header.jsx";
 import Footer from "./komponen/Footer.jsx";
+import LoginModal from "./komponen/LoginModal.jsx";
 import Beranda from "./halaman/Beranda.jsx";
 import Tentang from "./halaman/Tentang.jsx";
 import Harga from "./halaman/Harga.jsx";
 import featureData from "./data/features.js";
+import { useLogin } from "./hooks/useLogin.js";
 
 const STORAGE_KEY = "brandku-feature-likes";
 
@@ -41,9 +43,17 @@ const App = () => {
     );
   };
 
+  // --- Login ---
+  const { user, loading, error, login, logout } = useLogin();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header
+        user={user}
+        onOpenLogin={() => setShowLoginModal(true)}
+        onLogout={logout}
+      />
 
       <Routes>
         <Route path="/" element={<Navigate to="/Beranda" replace />} />
@@ -53,6 +63,14 @@ const App = () => {
       </Routes>
 
       <Footer />
+
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={login}
+        loading={loading}
+        error={error}
+      />
     </BrowserRouter>
   );
 };

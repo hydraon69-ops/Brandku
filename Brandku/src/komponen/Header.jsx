@@ -31,7 +31,7 @@ const mobileLinkClass = ({ isActive }) =>
     isActive ? 'bg-white/10 text-[#C8FF4D]' : 'text-white/80 hover:bg-white/5 hover:text-[#C8FF4D]'
   }`;
 
-const Header = () => {
+const Header = ({ user, onOpenLogin, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTentangOpen, setIsTentangOpen] = useState(false);
   const [isMobileTentangOpen, setIsMobileTentangOpen] = useState(false);
@@ -107,6 +107,29 @@ const Header = () => {
           <NavLink to="/Harga" className={linkClass}>
             Harga
           </NavLink>
+
+          {user ? (
+            <div className="flex items-center gap-3 border-l border-white/10 pl-6">
+              <span className="text-sm text-white/70">
+                Halo, <span className="font-bold text-[#C8FF4D]">{user.name}</span>
+              </span>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="rounded-full border border-white/15 px-4 py-1.5 text-xs font-semibold text-white/70 transition hover:border-[#FF4D8D] hover:text-[#FF4D8D]"
+              >
+                Keluar
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenLogin}
+              className="rounded-full bg-[#FF4D8D] px-5 py-2 text-sm font-bold text-[#150E23] transition hover:-translate-y-0.5"
+            >
+              Masuk
+            </button>
+          )}
         </nav>
 
         {/* Tombol hamburger — mobile */}
@@ -158,6 +181,37 @@ const Header = () => {
           <NavLink to="/Harga" className={mobileLinkClass} onClick={() => setIsMenuOpen(false)}>
             Harga
           </NavLink>
+
+          <div className="mt-2 border-t border-white/10 pt-3">
+            {user ? (
+              <div className="flex items-center justify-between px-3">
+                <span className="text-sm text-white/70">
+                  Halo, <span className="font-bold text-[#C8FF4D]">{user.name}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="rounded-full border border-white/15 px-4 py-1.5 text-xs font-semibold text-white/70"
+                >
+                  Keluar
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenLogin();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full rounded-full bg-[#FF4D8D] py-2.5 text-sm font-bold text-[#150E23]"
+              >
+                Masuk
+              </button>
+            )}
+          </div>
         </nav>
       )}
     </header>
